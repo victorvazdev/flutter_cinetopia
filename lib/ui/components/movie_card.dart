@@ -1,7 +1,10 @@
+import 'package:cinetopia/app/models/movie.dart';
 import 'package:flutter/material.dart';
 
 class MovieCard extends StatelessWidget {
-  const MovieCard({super.key});
+  final Movie movie;
+
+  const MovieCard({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +17,10 @@ class MovieCard extends StatelessWidget {
             height: 120,
             decoration: BoxDecoration(
               color: Color(0xFF000000),
+              image: DecorationImage(
+                image: NetworkImage(movie.getPosterImage()),
+                fit: BoxFit.cover,
+              ),
               borderRadius: BorderRadius.circular(8.0),
             ),
             margin: const EdgeInsets.only(right: 16),
@@ -25,12 +32,12 @@ class MovieCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 6.0),
                 child: Text(
-                  'Título do filmes',
+                  movie.title,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
               ),
               Text(
-                'Lançamento: 2014-04-04',
+                'Lançamento: ${movie.releaseDate}',
                 style: TextStyle(color: Color(0xFFA5A5A5)),
               ),
             ],
