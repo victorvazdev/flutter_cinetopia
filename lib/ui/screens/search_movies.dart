@@ -1,17 +1,23 @@
-import 'package:cinetopia/app/services/search_movies_service.dart';
 import 'package:cinetopia/app/viewmodels/search_movies_viewmodel.dart';
 import 'package:cinetopia/ui/components/movie_card.dart';
 import 'package:flutter/material.dart';
 
-class SearchMovies extends StatelessWidget {
+class SearchMovies extends StatefulWidget {
+  const SearchMovies({super.key});
+
+  @override
+  State<SearchMovies> createState() => _SearchMoviesState();
+}
+
+class _SearchMoviesState extends State<SearchMovies> {
   final SearchMoviesViewmodel viewmodel = SearchMoviesViewmodel();
 
-  SearchMovies({super.key});
+  final TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: viewmodel.getPopularMovies(),
+      future: viewmodel.getMovie(textEditingController.text),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return CustomScrollView(
@@ -30,6 +36,11 @@ class SearchMovies extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 32.0),
                   child: TextField(
+                    controller: textEditingController,
+                    onEditingComplete: () {
+                      FocusScope.of(context).unfocus();
+                      setState(() {});
+                    },
                     decoration: InputDecoration(
                       label: Text('Pesquisar'),
                       border: OutlineInputBorder(
